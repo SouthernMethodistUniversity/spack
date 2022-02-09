@@ -1,4 +1,4 @@
-# Copyright 2013-2021 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2022 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -57,6 +57,8 @@ class Raja(CachedCMakePackage, CudaPackage, ROCmPackage):
 
     depends_on('camp@0.2.2', when='@0.14.0:')
     depends_on('camp@0.1.0', when='@0.12.0:0.13.0')
+
+    depends_on('cmake@:3.20', when='+rocm', type='build')
 
     with when('+rocm @0.12.0:'):
         depends_on('camp+rocm')

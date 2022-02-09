@@ -1,4 +1,4 @@
-# Copyright 2013-2021 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2022 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
@@ -33,6 +33,6 @@ class Libdrm(AutotoolsPackage):
             # Needed to fix build for spack/spack#1740, but breaks newer
             # builds/compilers
             args.append('LIBS=-lrt')
-        if self.spec.satisfies('%gcc@10.0.0:'):
+        if self.spec.satisfies('%gcc@10.0.0:') or self.spec.satisfies('%clang@12.0.0:'):
             args.append('CFLAGS=-fcommon')
         return args
