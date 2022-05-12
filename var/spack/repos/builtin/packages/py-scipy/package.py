@@ -3,9 +3,6 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-import platform
-
-
 class PyScipy(PythonPackage):
     """SciPy (pronounced "Sigh Pie") is a Scientific Library for Python.
     It provides many user-friendly and efficient numerical routines such
@@ -15,7 +12,7 @@ class PyScipy(PythonPackage):
     pypi = "scipy/scipy-1.5.4.tar.gz"
     git = "https://github.com/scipy/scipy.git"
 
-    maintainers = ['adamjstewart']
+    maintainers = ['adamjstewart', 'rgommers']
 
     version('master', branch='master')
     version('1.8.0',  sha256='31d4f2d6b724bc9a98e527b5849b8a7e589bf1ea630c33aa563eda912c9ff0bd')
@@ -89,6 +86,8 @@ class PyScipy(PythonPackage):
     # http://www.scipy.org/scipylib/building/linux.html#step-4-build-numpy-1-5-0
     depends_on('blas')
     depends_on('lapack')
+    # https://github.com/scipy/scipy/wiki/Dropping-support-for-Accelerate
+    depends_on('lapack@3.4.1:', when='@1.2:')
 
     # https://github.com/scipy/scipy/issues/12860
     patch('https://git.sagemath.org/sage.git/plain/build/pkgs/scipy/patches/extern_decls.patch?id=711fe05025795e44b84233e065d240859ccae5bd',
@@ -103,12 +102,6 @@ class PyScipy(PythonPackage):
         # https://github.com/scipy/scipy/issues/11611
         if self.spec.satisfies('@:1.4 %gcc@10:'):
             env.set('FFLAGS', '-fallow-argument-mismatch')
-
-        # Kluge to get the gfortran linker to work correctly on Big
-        # Sur, at least until a gcc release > 10.2 is out with a fix.
-        # (There is a fix in their development tree.)
-        if platform.mac_ver()[0][0:2] == '11':
-            env.set('MACOSX_DEPLOYMENT_TARGET', '10.15')
 
     def install_options(self, spec, prefix):
         args = []

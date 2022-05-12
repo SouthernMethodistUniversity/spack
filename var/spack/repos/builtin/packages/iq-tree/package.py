@@ -26,7 +26,7 @@ class IqTree(CMakePackage):
 
     # Depends on Eigen3 and zlib
 
-    depends_on("boost")
+    depends_on("boost+container+math+exception")
     depends_on("eigen")
     depends_on("zlib")
     depends_on('mpi', when='+mpi')
